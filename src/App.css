@@ -3,8 +3,24 @@
   background-color: #00573F;
   width: 100vw;
   height: 100vh;
+  display: flex;
+  justify-content: center;
 }
-.Item{
+
+.GameContainer {
+  width: 95%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.BracketContainer{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 26px;
+}
+.Item {
   color: #fff;
   background-color: hsla(303, 38%, 10%, 0.25);
   border: #fff 0.15vw solid;
@@ -14,4 +30,34 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
+  transition: all 100ms linear;
+}
+
+.Item:hover{
+  scale: 105%;
+  background-color: hsla(303, 38%, 10%, 0.75);
+
+}
+.RO16ContainerB {
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+}
+
+.RO16ContainerS {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.RO8ContainerB{
+  display: flex;
+  flex-direction: column;
+  gap: 126px;
+  justify-content: center;
+}
+.RO4ContainerB{
+  display: flex;
+  flex-direction: column;
+  gap: 325px;
+  justify-content: center;
 }
