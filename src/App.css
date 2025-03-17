@@ -72,6 +72,11 @@
   display: flex;
   flex-direction: row;
 }
+.RO4Bracket{
+  display: flex;
+  flex-direction: row;
+
+}
 .RO4ContainerB{
   display: flex;
   flex-direction: column;
