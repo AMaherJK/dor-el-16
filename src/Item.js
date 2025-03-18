@@ -1,9 +1,9 @@
 import './App.css';
 
-function Item(props) {
+function Item({ name, onClick }) {
     return (
-        <div className='Item'>
-            {props.name}
+        <div className='Item' onClick={onClick} >
+            {name}
         </div>
     );
 }

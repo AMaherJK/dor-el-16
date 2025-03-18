@@ -38,7 +38,7 @@
 .Item:hover{
   scale: 105%;
   background-color: hsla(303, 38%, 10%, 0.75);
-
+cursor: pointer;
 }
 .Ro16Bracket{
   display: flex;
