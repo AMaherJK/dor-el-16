@@ -2,21 +2,48 @@ import './App.css';
 import Item from './Item';
 import { useState } from "react";
 function App() {
+  const [isModalOpen, setIsModalOpen] = useState(true); // Initially open
+
   const [bracketLHS, setBracketLHS] = useState([
-    ["a", "b", "c", "d", "e", "f", "g", "h"],
+    ["Team 1", "Team 2", "Team 3", "Team 4", "Team 5", "Team 6", "Team 7", "Team 8"],
     [null, null, null, null],
     [null, null],
     [null]
   ]);
 
   const [bracketRHS, setBracketRHS] = useState([
-    ["i", "j", "k", "l", "m", "n", "o", "p"],
+    ["Team 9", "Team 10", "Team 11", "Team 12", "Team 13", "Team 14", "Team 15", "Team 16"],
     [null, null, null, null],
     [null, null],
     [null]
   ]);
 
+  const [userInputs, setUserInputs] = useState({
+    LHS: Array(8).fill(null).map((_, i) => `Team ${i + 1}`), // "Team 1" to "Team 8"
+    RHS: Array(8).fill(null).map((_, i) => `Team ${i + 9}`), // "Team 9" to "Team 16"
+  });
 
+  const handleInputChange = (side, index, value) => {
+    setUserInputs((prev) => ({
+      ...prev,
+      [side]: prev[side].map((item, i) => (i === index ? value : item)),
+    }));
+  };
+  const startTournament = () => {
+    setBracketLHS((prev) => {
+      let newBracket = [...prev];
+      newBracket[0] = [...userInputs.LHS]; // Set Round of 16 with user input
+      return newBracket;
+    });
+
+    setBracketRHS((prev) => {
+      let newBracket = [...prev];
+      newBracket[0] = [...userInputs.RHS]; // Set Round of 16 with user input
+      return newBracket;
+    });
+
+    setIsModalOpen(false); // Close modal
+  };
   const handleSelect = (round, match, side, name) => {
     if (!name) return; // Ignore clicks on empty slots
 
@@ -33,8 +60,64 @@ function App() {
         return updatedBracket;
       });
     }
-  }; return (
+  }; 
+
+const shuffleTeams = () => {
+  const allTeams = [...userInputs.LHS, ...userInputs.RHS]; // Merge both sides
+  const shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  };
+  const shuffledTeams = shuffleArray(allTeams); // Shuffle all 16 teams
+  setUserInputs({
+    LHS: shuffledTeams.slice(0, 8), // First 8 go to LHS
+    RHS: shuffledTeams.slice(8, 16), // Last 8 go to RHS
+  });
+};
+  
+  return (
     <div className="App">
+      {isModalOpen && (
+        <div className="Modal">
+          <div className="ModalContent">
+            <h2>Enter Players</h2>
+            <div className="InputContainer">
+              <div className="LHSInputs">
+                <h3>Left Bracket</h3>
+                {userInputs.LHS.map((name, i) => (
+                  <input
+                    key={i}
+                    type="text"
+                    placeholder={`Player ${i + 1}`}
+                    value={name}
+                    onChange={(e) => handleInputChange("LHS", i, e.target.value)}
+                  />
+                ))}
+              </div>
+              <div className="RHSInputs">
+                <h3>Right Bracket</h3>
+                {userInputs.RHS.map((name, i) => (
+                  <input
+                    key={i}
+                    type="text"
+                    placeholder={`Player ${i + 9}`}
+                    value={name}
+                    onChange={(e) => handleInputChange("RHS", i, e.target.value)}
+                  />
+                ))}
+              </div>
+            </div>
+            <div className="ButtonContainer">
+              <button onClick={shuffleTeams}>🔀 Shuffle Teams</button>
+              <button onClick={startTournament}>🚀 Start Tournament</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className='GameContainer'>
         <div className='BracketContainer'>
           <div className='RO16ContainerB'>
@@ -99,8 +182,8 @@ function App() {
           <div className='RO4Bracket'>
             <img src={require('./assets/brackets/ro4-R-N.png')} alt='' />
             <div className='RO4ContainerB'>
-              <Item name={bracketRHS[2][0]} onClick={() => handleSelect(2, 0, "RHS", bracketRHS[2][0])}/>
-              <Item name={bracketRHS[2][1]} onClick={() => handleSelect(2, 0, "RHS", bracketRHS[2][1])}/>
+              <Item name={bracketRHS[2][0]} onClick={() => handleSelect(2, 0, "RHS", bracketRHS[2][0])} />
+              <Item name={bracketRHS[2][1]} onClick={() => handleSelect(2, 0, "RHS", bracketRHS[2][1])} />
             </div>
           </div>
           <div className='RO8ContainerB'>
@@ -114,8 +197,8 @@ function App() {
             <div className='RO8Bracket'>
               <img src={require('./assets/brackets/Ro8-R-N.png')} alt='' />
               <div className='RO8ContainerS'>
-                <Item name={bracketRHS[1][2]} onClick={() => handleSelect(1,1, "RHS", bracketRHS[1][2])} />
-                <Item name={bracketRHS[1][3]} onClick={() => handleSelect(1,1, "RHS", bracketRHS[1][3])} />
+                <Item name={bracketRHS[1][2]} onClick={() => handleSelect(1, 1, "RHS", bracketRHS[1][2])} />
+                <Item name={bracketRHS[1][3]} onClick={() => handleSelect(1, 1, "RHS", bracketRHS[1][3])} />
               </div>
             </div>
 
