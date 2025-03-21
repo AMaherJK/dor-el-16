@@ -60,24 +60,38 @@ function App() {
         return updatedBracket;
       });
     }
-  }; 
-
-const shuffleTeams = () => {
-  const allTeams = [...userInputs.LHS, ...userInputs.RHS]; // Merge both sides
-  const shuffleArray = (array) => {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
   };
-  const shuffledTeams = shuffleArray(allTeams); // Shuffle all 16 teams
-  setUserInputs({
-    LHS: shuffledTeams.slice(0, 8), // First 8 go to LHS
-    RHS: shuffledTeams.slice(8, 16), // Last 8 go to RHS
-  });
-};
-  
+
+  const shuffleTeams = () => {
+    const allTeams = [...userInputs.LHS, ...userInputs.RHS]; // Merge both sides
+    const shuffleArray = (array) => {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    };
+    const shuffledTeams = shuffleArray(allTeams); // Shuffle all 16 teams
+    setUserInputs({
+      LHS: shuffledTeams.slice(0, 8),
+      RHS: shuffledTeams.slice(8, 16),
+    });
+  };
+  const [winners, setWinners] = useState([]); // Store selected winners dynamically
+  const [losers, setLosers] = useState([]);   // Track all losers dynamically
+
+  const handleSelectWinner = (team, opponent) => {
+    setWinners((prevWinners) => [...prevWinners, team]);  // Add new winner
+
+    setLosers((prevLosers) => {
+      const updatedLosers = prevLosers.filter((loser) => loser !== team);  // Remove current winner from losers if it exists
+      return [...updatedLosers, opponent];  // Add the new loser
+    });
+  };
+
+  console.log("Winners:", winners);
+  console.log("Losers:", losers);
+
   return (
     <div className="App">
       {isModalOpen && (
@@ -111,7 +125,7 @@ const shuffleTeams = () => {
               </div>
             </div>
             <div className="ButtonContainer">
-            <button className="btn" onClick={startTournament}>🚀 Start Tournament</button>
+              <button className="btn" onClick={startTournament}>🚀 Start Tournament</button>
               <button className="btn" onClick={shuffleTeams}>🔀 Shuffle</button>
             </div>
           </div>
@@ -123,29 +137,29 @@ const shuffleTeams = () => {
           <div className='RO16ContainerB'>
             <div className='Ro16Bracket'>
               <div className='RO16ContainerS'>
-                <Item name={bracketLHS[0][0]} onClick={() => handleSelect(0, 0, "LHS", bracketLHS[0][0])} />
-                <Item name={bracketLHS[0][1]} onClick={() => handleSelect(0, 0, "LHS", bracketLHS[0][1])} />
+                <Item name={bracketLHS[0][0]} isLoser={losers.includes(bracketLHS[0][0])} onClick={() => { handleSelect(0, 0, "LHS", bracketLHS[0][0]); handleSelectWinner(bracketLHS[0][0], bracketLHS[0][1]) }} />
+                <Item name={bracketLHS[0][1]} isLoser={losers.includes(bracketLHS[0][1])} onClick={() => { handleSelect(0, 0, "LHS", bracketLHS[0][1]); handleSelectWinner(bracketLHS[0][1], bracketLHS[0][0]) }} />
               </div>
               <img src={require('./assets/brackets/ro16-L-N.png')} alt='' />
             </div>
             <div className='Ro16Bracket'>
               <div className='RO16ContainerS'>
-                <Item name={bracketLHS[0][2]} onClick={() => handleSelect(0, 1, "LHS", bracketLHS[0][2])} />
-                <Item name={bracketLHS[0][3]} onClick={() => handleSelect(0, 1, "LHS", bracketLHS[0][3])} />
+                <Item name={bracketLHS[0][2]} isLoser={losers.includes(bracketLHS[0][2])} onClick={() => { handleSelect(0, 1, "LHS", bracketLHS[0][2]); handleSelectWinner(bracketLHS[0][2], bracketLHS[0][3]) }} />
+                <Item name={bracketLHS[0][3]} isLoser={losers.includes(bracketLHS[0][3])} onClick={() => { handleSelect(0, 1, "LHS", bracketLHS[0][3]); handleSelectWinner(bracketLHS[0][3], bracketLHS[0][2]) }} />
               </div>
               <img src={require('./assets/brackets/ro16-L-N.png')} alt='' />
             </div>
             <div className='Ro16Bracket'>
               <div className='RO16ContainerS'>
-                <Item name={bracketLHS[0][4]} onClick={() => handleSelect(0, 2, "LHS", bracketLHS[0][4])} />
-                <Item name={bracketLHS[0][5]} onClick={() => handleSelect(0, 2, "LHS", bracketLHS[0][5])} />
+                <Item name={bracketLHS[0][4]} isLoser={losers.includes(bracketLHS[0][4])} onClick={() => { handleSelect(0, 2, "LHS", bracketLHS[0][4]); handleSelectWinner(bracketLHS[0][4], bracketLHS[0][5]) }} />
+                <Item name={bracketLHS[0][5]} isLoser={losers.includes(bracketLHS[0][5])} onClick={() => { handleSelect(0, 2, "LHS", bracketLHS[0][5]); handleSelectWinner(bracketLHS[0][5], bracketLHS[0][4]) }} />
               </div>
               <img src={require('./assets/brackets/ro16-L-N.png')} alt='' />
             </div>
             <div className='Ro16Bracket'>
               <div className='RO16ContainerS'>
-                <Item name={bracketLHS[0][6]} onClick={() => handleSelect(0, 3, "LHS", bracketLHS[0][6])} />
-                <Item name={bracketLHS[0][7]} onClick={() => handleSelect(0, 3, "LHS", bracketLHS[0][7])} />
+                <Item name={bracketLHS[0][6]} isLoser={losers.includes(bracketLHS[0][6])} onClick={() => { handleSelect(0, 3, "LHS", bracketLHS[0][6]); handleSelectWinner(bracketLHS[0][6], bracketLHS[0][7]) }} />
+                <Item name={bracketLHS[0][7]} isLoser={losers.includes(bracketLHS[0][7])} onClick={() => { handleSelect(0, 3, "LHS", bracketLHS[0][7]); handleSelectWinner(bracketLHS[0][7], bracketLHS[0][6]) }} />
               </div>
               <img src={require('./assets/brackets/ro16-L-N.png')} alt='' />
             </div>
@@ -154,15 +168,15 @@ const shuffleTeams = () => {
           <div className='RO8ContainerB'>
             <div className='RO8Bracket'>
               <div className='RO8ContainerS'>
-                <Item name={bracketLHS[1][0]} onClick={() => handleSelect(1, 0, "LHS", bracketLHS[1][0])} />
-                <Item name={bracketLHS[1][1]} onClick={() => handleSelect(1, 0, "LHS", bracketLHS[1][1])} />
+                <Item name={bracketLHS[1][0]} isLoser={losers.includes(bracketLHS[1][0])} onClick={() => { handleSelect(1, 0, "LHS", bracketLHS[1][0]); handleSelectWinner(bracketLHS[1][0], bracketLHS[1][1]) }} />
+                <Item name={bracketLHS[1][1]} isLoser={losers.includes(bracketLHS[1][1])} onClick={() => { handleSelect(1, 0, "LHS", bracketLHS[1][1]); handleSelectWinner(bracketLHS[1][1], bracketLHS[1][0]) }} />
               </div>
               <img src={require('./assets/brackets/Ro8-L-N.png')} alt='' />
             </div>
             <div className='RO8Bracket'>
               <div className='RO8ContainerS'>
-                <Item name={bracketLHS[1][2]} onClick={() => handleSelect(1, 1, "LHS", bracketLHS[1][2])} />
-                <Item name={bracketLHS[1][3]} onClick={() => handleSelect(1, 1, "LHS", bracketLHS[1][3])} />
+                <Item name={bracketLHS[1][2]} isLoser={losers.includes(bracketLHS[1][2])} onClick={() => { handleSelect(1, 1, "LHS", bracketLHS[1][2]); handleSelectWinner(bracketLHS[1][2], bracketLHS[1][3]) }} />
+                <Item name={bracketLHS[1][3]} isLoser={losers.includes(bracketLHS[1][3])} onClick={() => { handleSelect(1, 1, "LHS", bracketLHS[1][3]); handleSelectWinner(bracketLHS[1][3], bracketLHS[1][2]) }} />
               </div>
               <img src={require('./assets/brackets/Ro8-L-N.png')} alt='' />
             </div>
@@ -170,35 +184,35 @@ const shuffleTeams = () => {
           </div>
           <div className='RO4Bracket'>
             <div className='RO4ContainerB'>
-              <Item name={bracketLHS[2][0]} onClick={() => handleSelect(2, 0, "LHS", bracketLHS[2][0])} />
-              <Item name={bracketLHS[2][1]} onClick={() => handleSelect(2, 0, "LHS", bracketLHS[2][1])} />
+              <Item name={bracketLHS[2][0]} isLoser={losers.includes(bracketLHS[2][0])} onClick={() => { handleSelect(2, 0, "LHS", bracketLHS[2][0]); handleSelectWinner(bracketLHS[2][0], bracketLHS[2][1]) }} />
+              <Item name={bracketLHS[2][1]} isLoser={losers.includes(bracketLHS[2][1])} onClick={() => { handleSelect(2, 0, "LHS", bracketLHS[2][1]); handleSelectWinner(bracketLHS[2][1], bracketLHS[2][0]) }} />
             </div>
             <img src={require('./assets/brackets/ro4-L-N.png')} alt='' />
           </div>
 
-          <Item name={bracketLHS[3][0]} onClick={() => handleSelect(3, 0, "LHS", bracketLHS[3][0])} />
-          <Item name={bracketRHS[3][0]} onClick={() => handleSelect(3, 0, "RHS", bracketRHS[3][0])} />
+          <Item name={bracketLHS[3][0]} isLoser={losers.includes(bracketLHS[3][0])} onClick={() => { handleSelect(3, 0, "LHS", bracketLHS[3][0]); handleSelectWinner(bracketLHS[3][0], bracketRHS[3][0]) }} />
+          <Item name={bracketRHS[3][0]} isLoser={losers.includes(bracketRHS[3][0])} onClick={() => { handleSelect(3, 0, "RHS", bracketRHS[3][0]); handleSelectWinner(bracketRHS[3][0], bracketLHS[3][0]) }} />
 
           <div className='RO4Bracket'>
             <img src={require('./assets/brackets/ro4-R-N.png')} alt='' />
             <div className='RO4ContainerB'>
-              <Item name={bracketRHS[2][0]} onClick={() => handleSelect(2, 0, "RHS", bracketRHS[2][0])} />
-              <Item name={bracketRHS[2][1]} onClick={() => handleSelect(2, 0, "RHS", bracketRHS[2][1])} />
+              <Item name={bracketRHS[2][0]} isLoser={losers.includes(bracketRHS[2][0])} onClick={() => { handleSelect(2, 0, "RHS", bracketRHS[2][0]); handleSelectWinner(bracketRHS[2][0], bracketRHS[2][1]) }} />
+              <Item name={bracketRHS[2][1]} isLoser={losers.includes(bracketRHS[2][1])} onClick={() => { handleSelect(2, 0, "RHS", bracketRHS[2][1]); handleSelectWinner(bracketRHS[2][1], bracketRHS[2][0]) }} />
             </div>
           </div>
           <div className='RO8ContainerB'>
             <div className='RO8Bracket'>
               <img src={require('./assets/brackets/Ro8-R-N.png')} alt='' />
               <div className='RO8ContainerS'>
-                <Item name={bracketRHS[1][0]} onClick={() => handleSelect(1, 0, "RHS", bracketRHS[1][0])} />
-                <Item name={bracketRHS[1][1]} onClick={() => handleSelect(1, 0, "RHS", bracketRHS[1][1])} />
+                <Item name={bracketRHS[1][0]} isLoser={losers.includes(bracketRHS[1][0])} onClick={() => {handleSelect(1, 0, "RHS", bracketRHS[1][0]);handleSelectWinner(bracketRHS[1][0], bracketRHS[1][1])}} />
+                <Item name={bracketRHS[1][1]} isLoser={losers.includes(bracketRHS[1][1])} onClick={() => {handleSelect(1, 0, "RHS", bracketRHS[1][1]);handleSelectWinner(bracketRHS[1][1], bracketRHS[1][0])}} />
               </div>
             </div>
             <div className='RO8Bracket'>
               <img src={require('./assets/brackets/Ro8-R-N.png')} alt='' />
               <div className='RO8ContainerS'>
-                <Item name={bracketRHS[1][2]} onClick={() => handleSelect(1, 1, "RHS", bracketRHS[1][2])} />
-                <Item name={bracketRHS[1][3]} onClick={() => handleSelect(1, 1, "RHS", bracketRHS[1][3])} />
+                <Item name={bracketRHS[1][2]} isLoser={losers.includes(bracketRHS[1][2])} onClick={() => { handleSelect(1, 1, "RHS", bracketRHS[1][2]); handleSelectWinner(bracketRHS[1][2], bracketRHS[1][3]) }} />
+                <Item name={bracketRHS[1][3]} isLoser={losers.includes(bracketRHS[1][3])} onClick={() => { handleSelect(1, 1, "RHS", bracketRHS[1][3]); handleSelectWinner(bracketRHS[1][3], bracketRHS[1][2]) }} />
               </div>
             </div>
 
@@ -207,33 +221,32 @@ const shuffleTeams = () => {
             <div className='Ro16Bracket'>
               <img src={require('./assets/brackets/ro16-R-N.png')} alt='' />
               <div className='RO16ContainerS'>
-                <Item name={bracketRHS[0][0]} onClick={() => handleSelect(0, 0, "RHS", bracketRHS[0][0])} />
-                <Item name={bracketRHS[0][1]} onClick={() => handleSelect(0, 0, "RHS", bracketRHS[0][1])} />
+                <Item name={bracketRHS[0][0]} isLoser={losers.includes(bracketRHS[0][0])} onClick={() => { handleSelect(0, 0, "RHS", bracketRHS[0][0]); handleSelectWinner(bracketRHS[0][0], bracketRHS[0][1]) }} />
+                <Item name={bracketRHS[0][1]} isLoser={losers.includes(bracketRHS[0][1])} onClick={() => { handleSelect(0, 0, "RHS", bracketRHS[0][1]); handleSelectWinner(bracketRHS[0][1], bracketRHS[0][0]) }} />
               </div>
             </div>
             <div className='Ro16Bracket'>
               <img src={require('./assets/brackets/ro16-R-N.png')} alt='' />
               <div className='RO16ContainerS'>
-                <Item name={bracketRHS[0][2]} onClick={() => handleSelect(0, 1, "RHS", bracketRHS[0][2])} />
-                <Item name={bracketRHS[0][3]} onClick={() => handleSelect(0, 1, "RHS", bracketRHS[0][3])} />
+                <Item name={bracketRHS[0][2]} isLoser={losers.includes(bracketRHS[0][2])} onClick={() => { handleSelect(0, 1, "RHS", bracketRHS[0][2]); handleSelectWinner(bracketRHS[0][2], bracketRHS[0][3]) }} />
+                <Item name={bracketRHS[0][3]} isLoser={losers.includes(bracketRHS[0][3])} onClick={() => { handleSelect(0, 1, "RHS", bracketRHS[0][3]); handleSelectWinner(bracketRHS[0][3], bracketRHS[0][2]) }} />
               </div>
             </div>
             <div className='Ro16Bracket'>
               <img src={require('./assets/brackets/ro16-R-N.png')} alt='' />
               <div className='RO16ContainerS'>
-                <Item name={bracketRHS[0][4]} onClick={() => handleSelect(0, 2, "RHS", bracketRHS[0][4])} />
-                <Item name={bracketRHS[0][5]} onClick={() => handleSelect(0, 2, "RHS", bracketRHS[0][5])} />
+                <Item name={bracketRHS[0][4]} isLoser={losers.includes(bracketRHS[0][4])} onClick={() => { handleSelect(0, 2, "RHS", bracketRHS[0][4]); handleSelectWinner(bracketRHS[0][4], bracketRHS[0][5]) }} />
+                <Item name={bracketRHS[0][5]} isLoser={losers.includes(bracketRHS[0][5])} onClick={() => { handleSelect(0, 2, "RHS", bracketRHS[0][5]); handleSelectWinner(bracketRHS[0][5], bracketRHS[0][4]) }} />
               </div>
             </div>
             <div className='Ro16Bracket'>
               <img src={require('./assets/brackets/ro16-R-N.png')} alt='' />
               <div className='RO16ContainerS'>
-                <Item name={bracketRHS[0][6]} onClick={() => handleSelect(0, 3, "RHS", bracketRHS[0][6])} />
-                <Item name={bracketRHS[0][7]} onClick={() => handleSelect(0, 3, "RHS", bracketRHS[0][7])} />
+                <Item name={bracketRHS[0][6]} isLoser={losers.includes(bracketRHS[0][6])} onClick={() => { handleSelect(0, 3, "RHS", bracketRHS[0][6]); handleSelectWinner(bracketRHS[0][6], bracketRHS[0][7]) }} />
+                <Item name={bracketRHS[0][7]} isLoser={losers.includes(bracketRHS[0][7])} onClick={() => { handleSelect(0, 3, "RHS", bracketRHS[0][7]); handleSelectWinner(bracketRHS[0][7], bracketRHS[0][6]) }} />
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>

@@ -1,8 +1,8 @@
 import './App.css';
 
-function Item({ name, onClick }) {
+function Item({ name, onClick, isLoser}) {
     return (
-        <div className='Item' onClick={onClick} >
+        <div className={`Item ${isLoser ? "loser" : ""}`} onClick={onClick} >
             {name}
         </div>
     );
