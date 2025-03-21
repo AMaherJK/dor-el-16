@@ -83,7 +83,7 @@ const shuffleTeams = () => {
       {isModalOpen && (
         <div className="Modal">
           <div className="ModalContent">
-            <h2>Enter Players</h2>
+            <h1>Enter Contestants</h1>
             <div className="InputContainer">
               <div className="LHSInputs">
                 <h3>Left Bracket</h3>
@@ -111,8 +111,8 @@ const shuffleTeams = () => {
               </div>
             </div>
             <div className="ButtonContainer">
-              <button onClick={shuffleTeams}>🔀 Shuffle Teams</button>
-              <button onClick={startTournament}>🚀 Start Tournament</button>
+            <button className="btn" onClick={startTournament}>🚀 Start Tournament</button>
+              <button className="btn" onClick={shuffleTeams}>🔀 Shuffle</button>
             </div>
           </div>
         </div>
