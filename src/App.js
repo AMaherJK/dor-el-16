@@ -45,26 +45,26 @@ function App() {
     setIsModalOpen(false); // Close modal
   };
   const handleSelect = (round, match, side, name) => {
-    console.log(round, "-", match, "-", side);
     if (!name) return; // Ignore clicks on empty slots
     else {
-      if(round<=2){
-      if (side === "LHS") {
-        setBracketLHS(prevBracket => {
-          const updatedBracket = prevBracket.map(row => [...row]); // Create a deep copy
-          updatedBracket[round + 1][match] = name; // Move winner to next round
-          return updatedBracket;
-        });
-      } else {
-        setBracketRHS(prevBracket => {
-          const updatedBracket = prevBracket.map(row => [...row]); // Create a deep copy
-          updatedBracket[round + 1][match] = name; // Move winner to next round
-          return updatedBracket;
-        });
+      if (round <= 2) {
+        if (side === "LHS") {
+          setBracketLHS(prevBracket => {
+            const updatedBracket = prevBracket.map(row => [...row]); // Create a deep copy
+            updatedBracket[round + 1][match] = name; // Move winner to next round
+            return updatedBracket;
+          });
+        } else {
+          setBracketRHS(prevBracket => {
+            const updatedBracket = prevBracket.map(row => [...row]); // Create a deep copy
+            updatedBracket[round + 1][match] = name; // Move winner to next round
+            return updatedBracket;
+          });
+        }
       }
+      else { setWinner(name) }
     }
-    else{setWinner(name)}
-  }};
+  };
 
   const shuffleTeams = () => {
     const allTeams = [...userInputs.LHS, ...userInputs.RHS]; // Merge both sides
@@ -85,17 +85,15 @@ function App() {
   const [losers, setLosers] = useState([]);   // Track all losers dynamically
   const [winner, setWinner] = useState(null);  // Keeps track of the final winner.
   const handleSelectWinner = (team, opponent) => {
-    setWinners((prevWinners) => [...prevWinners, team]);  // Add new winner
-
-    setLosers((prevLosers) => {
-      const updatedLosers = prevLosers.filter((loser) => loser !== team);  // Remove current winner from losers if it exists
-      return [...updatedLosers, opponent];  // Add the new loser
-    });
+    if (team && opponent) {
+      setWinners((prevWinners) => [...prevWinners, team]);  // Add new winner
+      setLosers((prevLosers) => {
+        const updatedLosers = prevLosers.filter((loser) => loser !== team);  // Remove current winner from losers if it exists
+        return [...updatedLosers, opponent];  // Add the new loser
+      });
+      console.log(winners)
+    }
   };
-
-  console.log("Winners:", winners);
-  console.log("Losers:", losers);
-
   return (
     <div className="App">
       {isModalOpen && (
