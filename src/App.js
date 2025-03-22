@@ -45,22 +45,26 @@ function App() {
     setIsModalOpen(false); // Close modal
   };
   const handleSelect = (round, match, side, name) => {
+    console.log(round, "-", match, "-", side);
     if (!name) return; // Ignore clicks on empty slots
-
-    if (side === "LHS") {
-      setBracketLHS(prevBracket => {
-        const updatedBracket = prevBracket.map(row => [...row]); // Create a deep copy
-        updatedBracket[round + 1][match] = name; // Move winner to next round
-        return updatedBracket;
-      });
-    } else {
-      setBracketRHS(prevBracket => {
-        const updatedBracket = prevBracket.map(row => [...row]); // Create a deep copy
-        updatedBracket[round + 1][match] = name; // Move winner to next round
-        return updatedBracket;
-      });
+    else {
+      if(round<=2){
+      if (side === "LHS") {
+        setBracketLHS(prevBracket => {
+          const updatedBracket = prevBracket.map(row => [...row]); // Create a deep copy
+          updatedBracket[round + 1][match] = name; // Move winner to next round
+          return updatedBracket;
+        });
+      } else {
+        setBracketRHS(prevBracket => {
+          const updatedBracket = prevBracket.map(row => [...row]); // Create a deep copy
+          updatedBracket[round + 1][match] = name; // Move winner to next round
+          return updatedBracket;
+        });
+      }
     }
-  };
+    else{setWinner(name)}
+  }};
 
   const shuffleTeams = () => {
     const allTeams = [...userInputs.LHS, ...userInputs.RHS]; // Merge both sides
@@ -79,7 +83,7 @@ function App() {
   };
   const [winners, setWinners] = useState([]); // Store selected winners dynamically
   const [losers, setLosers] = useState([]);   // Track all losers dynamically
-
+  const [winner, setWinner] = useState(null);  // Keeps track of the final winner.
   const handleSelectWinner = (team, opponent) => {
     setWinners((prevWinners) => [...prevWinners, team]);  // Add new winner
 
@@ -190,8 +194,14 @@ function App() {
             <img src={require('./assets/brackets/ro4-L-N.png')} alt='' />
           </div>
 
-          <Item name={bracketLHS[3][0]} isLoser={losers.includes(bracketLHS[3][0])} onClick={() => { handleSelect(3, 0, "LHS", bracketLHS[3][0]); handleSelectWinner(bracketLHS[3][0], bracketRHS[3][0]) }} />
-          <Item name={bracketRHS[3][0]} isLoser={losers.includes(bracketRHS[3][0])} onClick={() => { handleSelect(3, 0, "RHS", bracketRHS[3][0]); handleSelectWinner(bracketRHS[3][0], bracketLHS[3][0]) }} />
+          <div className='finalContainer'>
+            <Item name={winner} isLoser={false} />
+            <div className='finalBracket'>
+              <Item name={bracketLHS[3][0]} isLoser={losers.includes(bracketLHS[3][0])} onClick={() => { handleSelect(3, 0, "LHS", bracketLHS[3][0]); handleSelectWinner(bracketLHS[3][0], bracketRHS[3][0]) }} />
+              <img src={require('./assets/brackets/final-N.png')} alt='' />
+              <Item name={bracketRHS[3][0]} isLoser={losers.includes(bracketRHS[3][0])} onClick={() => { handleSelect(3, 0, "RHS", bracketRHS[3][0]); handleSelectWinner(bracketRHS[3][0], bracketLHS[3][0]) }} />
+            </div>
+          </div>
 
           <div className='RO4Bracket'>
             <img src={require('./assets/brackets/ro4-R-N.png')} alt='' />
@@ -204,8 +214,8 @@ function App() {
             <div className='RO8Bracket'>
               <img src={require('./assets/brackets/Ro8-R-N.png')} alt='' />
               <div className='RO8ContainerS'>
-                <Item name={bracketRHS[1][0]} isLoser={losers.includes(bracketRHS[1][0])} onClick={() => {handleSelect(1, 0, "RHS", bracketRHS[1][0]);handleSelectWinner(bracketRHS[1][0], bracketRHS[1][1])}} />
-                <Item name={bracketRHS[1][1]} isLoser={losers.includes(bracketRHS[1][1])} onClick={() => {handleSelect(1, 0, "RHS", bracketRHS[1][1]);handleSelectWinner(bracketRHS[1][1], bracketRHS[1][0])}} />
+                <Item name={bracketRHS[1][0]} isLoser={losers.includes(bracketRHS[1][0])} onClick={() => { handleSelect(1, 0, "RHS", bracketRHS[1][0]); handleSelectWinner(bracketRHS[1][0], bracketRHS[1][1]) }} />
+                <Item name={bracketRHS[1][1]} isLoser={losers.includes(bracketRHS[1][1])} onClick={() => { handleSelect(1, 0, "RHS", bracketRHS[1][1]); handleSelectWinner(bracketRHS[1][1], bracketRHS[1][0]) }} />
               </div>
             </div>
             <div className='RO8Bracket'>
