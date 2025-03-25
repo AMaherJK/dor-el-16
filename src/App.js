@@ -1,6 +1,7 @@
 import './App.css';
 import Item from './Item';
 import InputModal from './InputModal';
+import WinnerModal from './WinnerModal';
 import { useState } from "react";
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(true); // Initially open
@@ -19,32 +20,6 @@ function App() {
     [null]
   ]);
 
-  const [userInputs, setUserInputs] = useState({
-    LHS: Array(8).fill(null).map((_, i) => `Team ${i + 1}`), // "Team 1" to "Team 8"
-    RHS: Array(8).fill(null).map((_, i) => `Team ${i + 9}`), // "Team 9" to "Team 16"
-  });
-
-  const handleInputChange = (side, index, value) => {
-    setUserInputs((prev) => ({
-      ...prev,
-      [side]: prev[side].map((item, i) => (i === index ? value : item)),
-    }));
-  };
-  const startTournament = () => {
-    setBracketLHS((prev) => {
-      let newBracket = [...prev];
-      newBracket[0] = [...userInputs.LHS]; // Set Round of 16 with user input
-      return newBracket;
-    });
-
-    setBracketRHS((prev) => {
-      let newBracket = [...prev];
-      newBracket[0] = [...userInputs.RHS]; // Set Round of 16 with user input
-      return newBracket;
-    });
-
-    setIsModalOpen(false); // Close modal
-  };
   const handleSelect = (round, match, side, name) => {
     if (!name) return; // Ignore clicks on empty slots
     else {
@@ -63,8 +38,41 @@ function App() {
           });
         }
       }
-      else { setWinner(name) }
+      else {
+        setWinner(name);
+        setTimeout(() => {
+          setIsModalOpen(true);
+        }, 600); // reopen modal with time delay     
+       }
     }
+  };
+
+
+  const [userInputs, setUserInputs] = useState({
+    LHS: Array(8).fill(null).map((_, i) => `Team ${i + 1}`), // "Team 1" to "Team 8"
+    RHS: Array(8).fill(null).map((_, i) => `Team ${i + 9}`), // "Team 9" to "Team 16"
+  });
+
+  const handleInputChange = (side, index, value) => {
+    setUserInputs((prev) => ({
+      ...prev,
+      [side]: prev[side].map((item, i) => (i === index ? value : item)),
+    }));
+  };
+
+  const startTournament = () => {
+    setBracketLHS((prev) => {
+      let newBracket = [...prev];
+      newBracket[0] = [...userInputs.LHS]; // Set Round of 16 with user input
+      return newBracket;
+    });
+
+    setBracketRHS((prev) => {
+      let newBracket = [...prev];
+      newBracket[0] = [...userInputs.RHS]; // Set Round of 16 with user input
+      return newBracket;
+    });
+    closeModal() // Close modal
   };
 
   const shuffleTeams = () => {
@@ -82,9 +90,15 @@ function App() {
       RHS: shuffledTeams.slice(8, 16),
     });
   };
+
+  const closeModal=()=>{
+    setIsModalOpen(false)
+  }
+
   const [winners, setWinners] = useState([]); // Store selected winners dynamically
   const [losers, setLosers] = useState([]);   // Track all losers dynamically
   const [winner, setWinner] = useState(null);  // Keeps track of the final winner.
+
   const handleSelectWinner = (team, opponent) => {
     if (team && opponent) {
       setWinners((prevWinners) => [...prevWinners, team]);  // Add new winner
@@ -95,11 +109,15 @@ function App() {
       console.log(winners)
     }
   };
+
+
   return (
     <div className="App">
       {isModalOpen && (
         <div className="Modal">
-          <InputModal userInputs={userInputs} handleInputChange={handleInputChange} shuffleTeams={shuffleTeams} startTournament={startTournament} />
+          {!winner ?
+            <InputModal userInputs={userInputs} handleInputChange={handleInputChange} shuffleTeams={shuffleTeams} startTournament={startTournament} />
+            : <WinnerModal winner={winner} onClick={closeModal}/>}
         </div>
       )}
 
