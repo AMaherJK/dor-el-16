@@ -34,7 +34,7 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-  transition: all 50ms linear;
+  transition: all 100ms linear;
   box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
 
 }
@@ -42,11 +42,11 @@
 .Item:hover {
   background-color: hsla(303, 38%, 10%, 0.75);
   cursor: pointer;
-  transform:translateY(-1px);
+  transform:translateY(-2px);
   box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
 }
 .Item:active {
-  transform:translateY(-3px);
+  transform:translateY(2px);
   background-color: hsla(303, 38%, 10%, 0.85);
 }
 
