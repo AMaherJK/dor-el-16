@@ -1,8 +1,8 @@
 import './App.css';
 import Item from './Item';
-function WinnerModal({winner, onClick}) {
+function WinnerModal({className, winner, onClick}) {
     return (
-        <div className="ModalContent" onClick={onClick}>
+        <div className={className} onClick={onClick}>
             <h1>THE WINNER</h1>
             <Item name={winner}/>
         </div>);

@@ -40,10 +40,8 @@ function App() {
       }
       else {
         setWinner(name);
-        setTimeout(() => {
-          setIsModalOpen(true);
-        }, 600); // reopen modal with time delay     
-       }
+        openModal();
+      }
     }
   };
 
@@ -91,9 +89,35 @@ function App() {
     });
   };
 
-  const closeModal=()=>{
-    setIsModalOpen(false)
+  var animationTime = 200
+
+  const closeModal = () => {
+    animateModalBackground()
+    setClassName("ModalContent modalAnimationReverse")
+    setTimeout(() => {
+      setIsModalOpen(false);
+    }, 600);
   }
+
+  const openModal = () => {
+    setIsModalOpen(true)
+    setClassName("ModalContent modalAnimation")
+    setTimeout(() => {
+      animateModalBackground();
+    }, animationTime);
+    setTimeout(() => {
+      setClassName("ModalContent")
+    }, 800);
+  }
+
+  const [modalClass, setmodalClass] = useState("Modal")
+  const animateModalBackground = () => {
+    if (isModalOpen)
+      setmodalClass("ModalClosed")
+    else
+      setmodalClass("Modal")
+
+  };
 
   const [winners, setWinners] = useState([]); // Store selected winners dynamically
   const [losers, setLosers] = useState([]);   // Track all losers dynamically
@@ -110,14 +134,15 @@ function App() {
     }
   };
 
+  const [className, setClassName]=useState("ModalContent")
 
   return (
     <div className="App">
       {isModalOpen && (
-        <div className="Modal">
+        <div className={modalClass} onClick={closeModal}>
           {!winner ?
-            <InputModal userInputs={userInputs} handleInputChange={handleInputChange} shuffleTeams={shuffleTeams} startTournament={startTournament} />
-            : <WinnerModal winner={winner} onClick={closeModal}/>}
+            <InputModal className={className} userInputs={userInputs} handleInputChange={handleInputChange} shuffleTeams={shuffleTeams} startTournament={startTournament} onClick={(e) => e.stopPropagation()} />
+            : <WinnerModal className={className} winner={winner} onClick={(e) => e.stopPropagation()} />}
         </div>
       )}
 
