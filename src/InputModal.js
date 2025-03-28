@@ -1,6 +1,6 @@
 import './App.css';
-
 function InputModal({ className, userInputs, handleInputChange, shuffleTeams, startTournament, onClick }) {
+
     return (
         <div className={className} onClick={onClick}>
             <h1>Enter Contestants</h1>
