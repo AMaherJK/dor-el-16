@@ -133,8 +133,26 @@ function App() {
       console.log(winners)
     }
   };
-
-  const [className, setClassName]=useState("ModalContent")
+  const restartTournament = () => {
+    setClassName("ModalContent modalAnimation")
+    setTimeout(() => {
+      setClassName("ModalContent")
+    }, 600);
+    setWinner(null);
+    setWinners([]);
+    setLosers([]);
+    setBracketRHS([["Team 9", "Team 10", "Team 11", "Team 12", "Team 13", "Team 14", "Team 15", "Team 16"],
+    [null, null, null, null],
+    [null, null],
+    [null]]);
+    setBracketLHS([
+      ["Team 1", "Team 2", "Team 3", "Team 4", "Team 5", "Team 6", "Team 7", "Team 8"],
+      [null, null, null, null],
+      [null, null],
+      [null]
+    ]);
+  }
+  const [className, setClassName] = useState("ModalContent")
 
   return (
     <div className="App">
@@ -142,7 +160,7 @@ function App() {
         <div className={modalClass} onClick={closeModal}>
           {!winner ?
             <InputModal className={className} userInputs={userInputs} handleInputChange={handleInputChange} shuffleTeams={shuffleTeams} startTournament={startTournament} onClick={(e) => e.stopPropagation()} />
-            : <WinnerModal className={className} winner={winner} onClick={(e) => e.stopPropagation()} />}
+            : <WinnerModal className={className} winner={winner} onClick={(e) => e.stopPropagation()} startTournament={restartTournament} closeModal={closeModal} />}
         </div>
       )}
 
