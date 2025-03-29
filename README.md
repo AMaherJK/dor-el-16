@@ -40,11 +40,11 @@
 -User Input Screen
 ![UserInput](src/assets/ScreenShots/UserInput.png)
 
--User Input Screen
-![UserInput](src/assets/ScreenShots/WinnerScreen.png)
+-Winner Screen
+![WinnerScreen](src/assets/ScreenShots/WinnerScreen.png)
 
--User Input Screen
-![UserInput](src/assets/ScreenShots/BracketProgression.png)
+-Bracket Progression
+![BracketProgression](src/assets/ScreenShots/BracketProgression.png)
 
 ---
 ## How to Run the Project Locally  
@@ -58,7 +58,7 @@ Clone the project
 Go to the project directory
 
 ```bash
-  cd my-project
+  cd dor-el-16
 ```
 
 Install dependencies
