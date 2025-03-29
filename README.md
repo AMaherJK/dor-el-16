@@ -1,6 +1,6 @@
 # **Dor El-16 (دور الـ 16)** 🏆  
 **A Round of 16 Knockout Tournament Bracket built with ReactJS**
-![alt text](src/assets/readme.png)
+![Logo](src/assets/readme.png)
 ---
 
 ## **Overview**  
@@ -34,23 +34,48 @@
 ---
 ## **Screenshots**
 
+-Bracket
+![Bracket](src/assets/ScreenShots/Bracket.png)
 
+-User Input Screen
+![UserInput](src/assets/ScreenShots/UserInput.png)
+
+-User Input Screen
+![UserInput](src/assets/ScreenShots/WinnerScreen.png)
+
+-User Input Screen
+![UserInput](src/assets/ScreenShots/BracketProgression.png)
 
 ---
 ## How to Run the Project Locally  
 
-1. **Clone the Repository:**  
-   ```bash  
-   git clone <repository-link>  
-   cd dor-el-16 
-   ```
+Clone the project
 
-2. **Install Dependencies:**
-    ```bash
-    npm install  
-    ```
+```bash
+  git clone https://github.com/AMaherJK/dor-el-16
+```
 
-3. **Run the App:**
-    ```bash
-    npm start  
-    ```
+Go to the project directory
+
+```bash
+  cd my-project
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the server
+
+```bash
+  npm run start
+```
+---
+
+## Credits
+Developed by **Ahmed Maher**
+
+## Feedback
+If you have any feedback, please reach out to me at AMaherJK@gmail.com
