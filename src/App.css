@@ -11,8 +11,6 @@
   background-repeat: no-repeat, repeat;
   background-position: center 5%, center;
   background-size: 20%,cover;
-
-
 }
 
 .GameContainer {
@@ -111,6 +109,7 @@
 
 .Modal {
   position: fixed;
+  z-index: 1;
   top: 0;
   left: 0;
   width: 100%;
@@ -127,6 +126,7 @@
 }
 .ModalClosed{
   position: fixed;
+  z-index: 1;
   top: 0;
   left: 0;
   width: 100%;
